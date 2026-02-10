@@ -16,6 +16,11 @@
             <ColumnDefinition Width="7*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <InkCanvas Name="canvas" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></InkCanvas>
+        <ComboBox Name="colors" Height="30" SelectionChanged="colors_SelectionChanged">
+            <ComboBoxItem Tag="gr">Zöld</ComboBoxItem>
+            <ComboBoxItem Tag="re">Piros</ComboBoxItem>
+            <ComboBoxItem Tag="bl">Kék</ComboBoxItem>
+        </ComboBox>
         
     </Grid>
 </Window>

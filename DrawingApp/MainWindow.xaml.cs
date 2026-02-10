@@ -21,5 +21,10 @@ namespace DrawingApp
             InitializeComponent();
 
         }
+
+        private void colors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
     }
 }
