@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="#F3F3F3">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
@@ -15,12 +15,12 @@
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="7*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <InkCanvas Name="canvas" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></InkCanvas>
-        <ComboBox Name="colors" Height="30" SelectionChanged="colors_SelectionChanged">
-            <ComboBoxItem Tag="gr">Zöld</ComboBoxItem>
-            <ComboBoxItem Tag="re">Piros</ComboBoxItem>
-            <ComboBoxItem Tag="bl">Kék</ComboBoxItem>
-        </ComboBox>
-        
+        <Border Grid.Row="1" Grid.Column="1" BorderBrush="#D1D1D1" BorderThickness="2" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <InkCanvas Name="canvas"></InkCanvas>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="#D1D1D1" BorderThickness="2" Margin="20" Background="White" CornerRadius="30">
+            <StackPanel Orientation="Vertical" x:Name="colorPalette"></StackPanel>
+        </Border>
+
     </Grid>
 </Window>

@@ -16,15 +16,19 @@ namespace DrawingApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static InkCanvas ink;
         public MainWindow()
         {
             InitializeComponent();
-
-        }
-
-        private void colors_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+            ink = this.canvas;
+            Initialize();
             
+        }
+        private void Initialize()
+        {
+            Szinek.Initialize();
+            foreach (Szinek c in Szinek.ColorContainer) this.colorPalette.Children.Add(c);
+
         }
     }
 }
