@@ -19,8 +19,8 @@ namespace DrawingApp
 
         public Szinek(SolidColorBrush sz)
         {
-            this.Width = 20;
-            this.Height = 20;
+            this.Width = 30;
+            this.Height = 30;
             this.Margin = new System.Windows.Thickness(0, 10, 0, 0);
             this.CornerRadius = new System.Windows.CornerRadius(10);
             this._szin = sz;
@@ -56,20 +56,19 @@ namespace DrawingApp
                 s.GrowReset(true);
             }
             this.GrowReset(false);
+            MainWindow.colors.Visibility = System.Windows.Visibility.Collapsed;
         }
         private void GrowReset(bool isReset)
         {
             if (isReset)
             {
-                this.Width = 20;
-                this.Height = 20;
-                this.CornerRadius = new System.Windows.CornerRadius(10);
+                this.Width = 30;
+                this.Height = 30;
             }
             else
             {
-                this.Width = 30;
-                this.Height = 30;
-                this.CornerRadius = new System.Windows.CornerRadius(20);
+                this.Width = 40;
+                this.Height = 40;
             }
         }
         public static void Initialize()

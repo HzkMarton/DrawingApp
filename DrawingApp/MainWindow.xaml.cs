@@ -17,10 +17,12 @@ namespace DrawingApp
     public partial class MainWindow : Window
     {
         public static InkCanvas ink;
+        public static Border colors;
         public MainWindow()
         {
             InitializeComponent();
             ink = this.canvas;
+            colors = this.colorContainer;
             Initialize();
             
         }
@@ -28,7 +30,8 @@ namespace DrawingApp
         {
             Szinek.Initialize();
             foreach (Szinek c in Szinek.ColorContainer) this.colorPalette.Children.Add(c);
-
+            Eszkozok.Initialize();
+            foreach (Eszkozok e in Eszkozok.ToolContainer) this.toolBar.Children.Add(e);
         }
     }
 }
