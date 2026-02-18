@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Media;
 
 namespace DrawingApp
@@ -17,6 +18,10 @@ namespace DrawingApp
         private Tipus _tipus;
         public static Dictionary<Tipus, string> svgIcons;
         public static List<Eszkozok> ToolContainer = new List<Eszkozok>();
+
+        static DrawingAttributes highlighter = new DrawingAttributes();
+       
+        
         public Eszkozok(Tipus tipus)
         {
             this._tipus = tipus;
@@ -44,6 +49,10 @@ namespace DrawingApp
                 case Tipus.Szin:
                     MainWindow.colors.Visibility = System.Windows.Visibility.Visible;
                     MainWindow.ink.EditingMode = InkCanvasEditingMode.Ink;
+                    break;
+                case Tipus.Kiemelo:
+                    
+                    MainWindow.ink.DefaultDrawingAttributes = highlighter;
                     break;
             }
             
@@ -93,7 +102,12 @@ namespace DrawingApp
             StreamReader sr = new StreamReader("assets/icons.json");
             svgIcons = JsonSerializer.Deserialize<Dictionary<Tipus, string>>(sr.ReadToEnd());
             if (svgIcons == null) throw new Exception("Nem sikerült az ikonok betöltése");
-            
+            //Kiemelő betöltése
+            highlighter.IsHighlighter = true;
+            highlighter.Width = 20;
+            highlighter.Height = 10;
+            highlighter.StylusTip = StylusTip.Rectangle;
+            //-------------------------------------------
             Tipus[] tipusok = { Tipus.Szin,Tipus.Toll, Tipus.Kiemelo, Tipus.Radir };
             foreach (Tipus t in tipusok) new Eszkozok(t);
         }
