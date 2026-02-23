@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="#151A28">
+    <Grid x:Name="MainContainer">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
@@ -15,13 +15,13 @@
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="7*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="1" Grid.Column="1" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="20" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border x:Name="CanvasContainer" Grid.Row="1" Grid.Column="1" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="20" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <InkCanvas Name="canvas" Background="Transparent"></InkCanvas>
         </Border>
-        <Border Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="20" Background="#151A28" CornerRadius="30">
+        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="20" CornerRadius="30">
             <StackPanel Orientation="Vertical" x:Name="toolBar"></StackPanel>
         </Border>
-        <Border x:Name="colorContainer" Visibility="Hidden" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="20" Background="#151A28" CornerRadius="30">
+        <Border x:Name="ColorContainer" Visibility="Hidden" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="20"  CornerRadius="30">
             <StackPanel Orientation="Vertical" x:Name="colorPalette"></StackPanel>
         </Border>
 

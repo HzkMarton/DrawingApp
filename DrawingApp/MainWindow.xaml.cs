@@ -18,11 +18,16 @@ namespace DrawingApp
     {
         public static InkCanvas ink;
         public static Border colors;
+        public static Brush Background = new SolidColorBrush(Color.FromRgb(21, 26, 40));
+        public static Brush Foreground = new SolidColorBrush(Color.FromRgb(179, 185, 200));
         public MainWindow()
         {
             InitializeComponent();
             ink = this.canvas;
-            colors = this.colorContainer;
+            colors = this.ColorContainer;
+            this.ColorContainer.Background = Background;
+            this.ToolContainer.Background = Background;
+            this.MainContainer.Background = Background;
             Initialize();
             
         }

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace DrawingApp
 {
@@ -16,7 +18,7 @@ namespace DrawingApp
         private SolidColorBrush _szin;
         private bool _selected;
         public static List<Szinek> ColorContainer = new List<Szinek>();
-
+        public static SolidColorBrush SelectedColor = Brushes.Black;
         public Szinek(SolidColorBrush sz)
         {
             this.Width = 30;
@@ -56,7 +58,19 @@ namespace DrawingApp
                 s.GrowReset(true);
             }
             this.GrowReset(false);
-            MainWindow.colors.Visibility = System.Windows.Visibility.Collapsed;
+            TranslateTransform translate = new TranslateTransform();
+            MainWindow.colors.RenderTransform = translate;
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                From = 0,
+                To = -200,
+                Duration = TimeSpan.FromSeconds(2),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            };
+            translate.BeginAnimation(TranslateTransform.XProperty, animation);
+            SelectedColor = this._szin;
+            Eszkozok.ToolContainer.Where(x => x.Type == Eszkozok.Tipus.Szin).First().Update();
+            Eszkozok.ToolContainer.Where(x => x.Selected).First().ToolAttributes.Color = this._szin.Color;
         }
         private void GrowReset(bool isReset)
         {
