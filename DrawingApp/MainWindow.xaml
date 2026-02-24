@@ -5,25 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Rajztábla" Height="450" Width="800">
     <Grid x:Name="MainContainer">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="7*"></ColumnDefinition>
+            <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"></ColumnDefinition>
+            <ColumnDefinition Width="12*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border x:Name="CanvasContainer" Grid.Row="1" Grid.Column="1" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="20" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <InkCanvas Name="canvas" Background="Transparent"></InkCanvas>
-        </Border>
-        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="20" CornerRadius="30">
+        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="0 5 5 5" CornerRadius="5">
             <StackPanel Orientation="Vertical" x:Name="toolBar"></StackPanel>
         </Border>
-        <Border x:Name="ColorContainer" Visibility="Hidden" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="20"  CornerRadius="30">
-            <StackPanel Orientation="Vertical" x:Name="colorPalette"></StackPanel>
-        </Border>
-
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"></RowDefinition>
+                <RowDefinition Height="1*" MaxHeight="60" MinHeight="50"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border x:Name="CanvasContainer" Grid.Row="0" Grid.Column="1" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="10"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <InkCanvas Name="canvas" Background="Transparent"></InkCanvas>
+            </Border>
+            <Border x:Name="Menu" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="0 0 0 5" CornerRadius="5">
+             
+            </Border>
+        </Grid>
     </Grid>
 </Window>

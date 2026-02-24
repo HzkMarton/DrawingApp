@@ -17,15 +17,14 @@ namespace DrawingApp
     public partial class MainWindow : Window
     {
         public static InkCanvas ink;
-        public static Border colors;
-        public static Brush Background = new SolidColorBrush(Color.FromRgb(21, 26, 40));
-        public static Brush Foreground = new SolidColorBrush(Color.FromRgb(179, 185, 200));
+        public static Border options;
+        public static SolidColorBrush Background = new SolidColorBrush(Color.FromRgb(21, 26, 40));
+        public static SolidColorBrush Foreground = new SolidColorBrush(Color.FromRgb(179, 185, 200));
         public MainWindow()
         {
             InitializeComponent();
             ink = this.canvas;
-            colors = this.ColorContainer;
-            this.ColorContainer.Background = Background;
+            options = this.Menu;
             this.ToolContainer.Background = Background;
             this.MainContainer.Background = Background;
             Initialize();
@@ -33,10 +32,12 @@ namespace DrawingApp
         }
         private void Initialize()
         {
-            Szinek.Initialize();
-            foreach (Szinek c in Szinek.ColorContainer) this.colorPalette.Children.Add(c);
             Eszkozok.Initialize();
-            foreach (Eszkozok e in Eszkozok.ToolContainer) this.toolBar.Children.Add(e);
+            foreach (Eszkozok e in Eszkozok.ToolContainer)
+            {
+                if (e._tipus == Eszkozok.Tipus.Szin) continue;
+                this.toolBar.Children.Add(e);
+            }
         }
     }
 }
