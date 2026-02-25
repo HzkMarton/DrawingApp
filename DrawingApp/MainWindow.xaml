@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
-        Title="Rajztábla" Height="450" Width="800" KeyDown="Window_KeyDown">
+        Title="Rajztábla" Height="450" Width="800" PreviewKeyDown="Window_KeyDown">
     <Grid x:Name="MainContainer">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"/>

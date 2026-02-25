@@ -65,7 +65,6 @@ namespace DrawingApp
                 }
             }
         }
-
         public void Beallitasok_Click(object sender, RoutedEventArgs e)
         {
             Button? settingsButton = sender as Button;
@@ -95,13 +94,13 @@ namespace DrawingApp
         }
         private void Info_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Rajzoló alkalmazás\nKészítette: RPT Industries\n2024", "Információ", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Rajzoló alkalmazás\nKészítette: RPT Industries\n2026™©®", "Információ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         private static void ChangeTheme(string themeName)
         {
             if (Application.Current.MainWindow is MainWindow mainWindow)
             {
-                mainWindow.SetTheme(themeName);
+                mainWindow.TemaValtas(themeName);
             }
         }
         public void Fomenu_Click(object sender, RoutedEventArgs e)

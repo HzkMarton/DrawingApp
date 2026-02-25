@@ -20,11 +20,12 @@ namespace DrawingApp
             options = this.Menu;
             this.ToolContainer.Background = Background;
             this.MainContainer.Background = Background;
-            Initialize();
-            MainMenuUserControl.StartDrawingClicked += OnStartDrawingClicked;
-            PauseMenuUserControl.ResumeClicked += OnResumeClicked;
-            PauseMenuUserControl.BackToMainMenuClicked += OnBackToMainMenuClicked;
+            Initialize(); 
+            MainMenuUserControl.StartDrawingClicked += OnStartDrawingClicked; // MainMenu → Canvas
+            PauseMenuUserControl.ResumeClicked += OnResumeClicked; // PauseMenu → Canvas
+            PauseMenuUserControl.BackToMainMenuClicked += OnBackToMainMenuClicked; // PauseMenu → MainMenu
         }
+        //Eszközök inicializálása és hozzáadása a ToolBar-hoz
         private void Initialize()
         {
             Eszkozok.Initialize();
@@ -62,7 +63,7 @@ namespace DrawingApp
             ToolContainer.Visibility = Visibility.Collapsed;
             DrawingArea.Visibility = Visibility.Collapsed;
         }
-        public void SetTheme(string themeName)
+        public void TemaValtas(string themeName)
         {
             Color bg;
             Color fg;
@@ -105,6 +106,7 @@ namespace DrawingApp
                     MainMenuOverlay.Visibility = Visibility.Visible;
                 }
             }
+            e.Handled = true; // Megakadályozza, hogy az Escape billentyű lenyomása után más ne történjen.
         }
     }
 }
