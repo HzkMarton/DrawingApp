@@ -19,8 +19,6 @@ namespace DrawingApp
             this.ToolContainer.Background = Background;
             this.MainContainer.Background = Background;
             Initialize();
-
-            // ✅ NEW: subscribe to the UserControl's event
             MainMenuUserControl.StartDrawingClicked += OnStartDrawingClicked;
         }
 
@@ -32,13 +30,8 @@ namespace DrawingApp
                 if (e._tipus == Eszkozok.Tipus.Szin) continue;
                 this.toolBar.Children.Add(e);
             }
-            Eszkozok.ToolContainer
-                     .Where(x => x._tipus == Eszkozok.Tipus.Toll)
-                     .First()
-                     .CreateToolBar();
+            Eszkozok.ToolContainer.Where(x => x._tipus == Eszkozok.Tipus.Toll).First().CreateToolBar();
         }
-
-        // ✅ NEW: hide the overlay, reveal the drawing UI
         private void OnStartDrawingClicked(object sender, EventArgs e)
         {
             MainMenuOverlay.Visibility = Visibility.Collapsed;
@@ -47,12 +40,23 @@ namespace DrawingApp
         }
         public void SetTheme(string themeName)
         {
-            var (bg, fg) = themeName.ToLower() switch
+            Color bg;
+            Color fg;
+            switch (themeName.ToLower())
             {
-                "fekete" => (Colors.Black, Colors.White),
-                "fehér" => (Colors.White, Colors.Black),
-                _ => (Color.FromRgb(21, 26, 40), Color.FromRgb(179, 185, 200))
-            };
+                case "fekete":
+                    bg = Colors.Black;
+                    fg = Colors.White;
+                    break;
+                case "fehér":
+                    bg = Colors.White;
+                    fg = Colors.Black;
+                    break;
+                default:
+                    bg = Color.FromRgb(21, 26, 40);
+                    fg = Color.FromRgb(179, 185, 200);
+                    break;
+            }
             Background = new SolidColorBrush(bg);
             Foreground = new SolidColorBrush(fg);
             this.MainContainer.Background = Background;

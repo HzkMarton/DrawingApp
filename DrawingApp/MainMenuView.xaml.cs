@@ -7,7 +7,7 @@ namespace DrawingApp
 {
     public partial class MainMenuView : UserControl
     {
-        // Event that MainWindow subscribes to when "New Canvas" is clicked
+        // Ez az esemény jelzi, hogy a "Start Drawing" gombra kattintottak, és a rajzoló felület megjeleníthető.
         public event EventHandler? StartDrawingClicked;
 
         public MainMenuView()
