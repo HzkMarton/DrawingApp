@@ -48,16 +48,16 @@
 
             <!-- Header -->
             <StackPanel Grid.Row="0">
-                <TextBlock Text="Rajz tábla" FontSize="28" FontWeight="SemiBold" Foreground="#1C2135" HorizontalAlignment="Center"/>
+                <TextBlock Text="Rajz tábla" FontSize="28" FontWeight="SemiBold" Foreground="#1C2135" HorizontalAlignment="Center" FontFamily="{StaticResource MainFont}"/>
             </StackPanel>
 
             <!-- Gombok -->
             <StackPanel Grid.Row="2">
-                <Button Style="{StaticResource MenuButtonStyle}" Content="Új"       Click="UjCanvas_Click"/>
-                <Button Style="{StaticResource MenuButtonStyle}" Content="Betöltés" Click="Betoltes_Click"/>
-                <Button Style="{StaticResource MenuButtonStyle}" Content="Beállítások" Click="Beallitasok_Click"/>
+                <Button Style="{StaticResource MenuButtonStyle}" FontFamily="{StaticResource MainFont}" Content="Új"       Click="UjCanvas_Click"/>
+                <Button Style="{StaticResource MenuButtonStyle}" FontFamily="{StaticResource MainFont}" Content="Betöltés" Click="Betoltes_Click"/>
+                <Button Style="{StaticResource MenuButtonStyle}" FontFamily="{StaticResource MainFont}" Content="Beállítások" Click="Beallitasok_Click"/>
                 <Separator Margin="0,6,0,14"/>
-                <Button Style="{StaticResource MenuButtonStyle}" Content="Kilépés" Background="#991B1B" BorderBrush="#991B1B" Click="Exit_Click"/>
+                <Button Style="{StaticResource MenuButtonStyle}" FontFamily="{StaticResource MainFont}" Content="Kilépés" Background="#991B1B" BorderBrush="#991B1B" Click="Exit_Click"/>
             </StackPanel>
         </Grid>
     </Border>

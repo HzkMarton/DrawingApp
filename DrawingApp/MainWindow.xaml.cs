@@ -10,7 +10,6 @@ namespace DrawingApp
         public static Border options;
         public static SolidColorBrush Background = new SolidColorBrush(Color.FromRgb(21, 26, 40));
         public static SolidColorBrush Foreground = new SolidColorBrush(Color.FromRgb(179, 185, 200));
-
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +26,7 @@ namespace DrawingApp
             Eszkozok.Initialize();
             foreach (Eszkozok e in Eszkozok.ToolContainer)
             {
-                if (e._tipus == Eszkozok.Tipus.Szin) continue;
+                if (e._tipus == Eszkozok.Tipus.Szin || e._tipus == Eszkozok.Tipus.Grow || e._tipus == Eszkozok.Tipus.Shrink) continue;
                 this.toolBar.Children.Add(e);
             }
             Eszkozok.ToolContainer.Where(x => x._tipus == Eszkozok.Tipus.Toll).First().CreateToolBar();
