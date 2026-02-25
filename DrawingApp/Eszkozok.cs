@@ -17,7 +17,7 @@ namespace DrawingApp
 {
     internal class Eszkozok : Border
     {
-        public enum Tipus { Radir, Szin, Kiemelo, Toll, None}
+        public enum Tipus { Radir, Szin, Kiemelo, Toll, Grow, Shrink, None}
 
         public Tipus _tipus;
         private bool _selected;
@@ -44,6 +44,7 @@ namespace DrawingApp
                 if(selfColor == Brushes.Black && link == Tipus.Toll) this._selected = true;
                 else if (selfColor == Brushes.Red && link == Tipus.Kiemelo) this._selected = true;
             }
+            else if(this._tipus == Tipus.Grow || this._tipus == Tipus.Shrink) this.Margin = new System.Windows.Thickness(20, 0, 0, 0);
             else
             {
                 this.Margin = new System.Windows.Thickness(0, 20, 0, 0);
@@ -67,6 +68,12 @@ namespace DrawingApp
                 this.GrowReset(false);
                 this._selected = true;
             }
+            else if(this._tipus == Tipus.Radir)
+            {
+                this.ToolAttributes.Width = 3;
+                this.ToolAttributes.Height = 3;
+                MainWindow.ink.EraserShape = new EllipseStylusShape(3, 3);
+            }
             this.MouseEnter += Eszkozok_MouseEnter;
             this.MouseLeave += Eszkozok_MouseLeave;
             this.MouseDown += Eszkozok_MouseDown;
@@ -76,19 +83,24 @@ namespace DrawingApp
 
         private void Eszkozok_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            MainWindow.ink.EditingMode = InkCanvasEditingMode.Ink;
-            foreach (Eszkozok f in ToolContainer)
+            if (this._tipus != Tipus.Grow && this._tipus != Tipus.Shrink)
             {
-                if(this._tipus == Tipus.Szin && f._tipus == Tipus.Szin && f._linkedTo == this._linkedTo)f._selected = false;
-                else if (this._tipus != Tipus.Szin && f._tipus != Tipus.Szin) f._selected = false;
-              
+                MainWindow.ink.EditingMode = InkCanvasEditingMode.Ink;
+                foreach (Eszkozok f in ToolContainer)
+                {
+                    if (this._tipus == Tipus.Szin && f._tipus == Tipus.Szin && f._linkedTo == this._linkedTo) f._selected = false;
+                    else if (this._tipus != Tipus.Szin && f._tipus != Tipus.Szin) f._selected = false;
+
+                }
+                this._selected = true;
+                foreach (Eszkozok f in ToolContainer) f.GrowReset(true);
             }
-            this._selected = true;
-            foreach (Eszkozok f in ToolContainer) f.GrowReset(true);
+
             switch (this._tipus)
             {
                 case Tipus.Radir:
                     MainWindow.ink.EditingMode = InkCanvasEditingMode.EraseByPoint;
+                    CreateToolBar();
                     break;
                 case Tipus.Szin:
                     ToolContainer.Where(x => x._tipus == this._linkedTo).First().ToolAttributes.Color = this._selfColor.Color;
@@ -97,6 +109,23 @@ namespace DrawingApp
                 case Tipus.Kiemelo:
                     MainWindow.ink.DefaultDrawingAttributes = this.ToolAttributes;
                     CreateToolBar();
+                    break;
+                case Tipus.Grow:
+                    Eszkozok currentG = ToolContainer.Where(x => x._selected && (x._tipus == Tipus.Toll || x._tipus == Tipus.Kiemelo || x._tipus == Tipus.Radir)).First();
+                    currentG.ToolAttributes.Width++;
+                    currentG.ToolAttributes.Height++;
+                    if (currentG._tipus == Tipus.Radir) MainWindow.ink.EraserShape = new EllipseStylusShape(currentG.Width, currentG.Height);
+                    sizebar.Children.OfType<Label>().First().Content = $"{currentG.ToolAttributes.Width} pt";
+                    break;
+                case Tipus.Shrink:
+                    Eszkozok currentS = ToolContainer.Where(x => x._selected && (x._tipus == Tipus.Toll || x._tipus == Tipus.Kiemelo || x._tipus == Tipus.Radir)).First();
+                    if (currentS.ToolAttributes.Width - 1 > 0)
+                    {
+                        currentS.ToolAttributes.Width--;
+                        currentS.ToolAttributes.Height--;
+                    }
+                    if (currentS._tipus == Tipus.Radir) MainWindow.ink.EraserShape = new EllipseStylusShape(currentS.Width, currentS.Height);
+                    sizebar.Children.OfType<Label>().First().Content = $"{currentS.ToolAttributes.Width} pt";
                     break;
             }
         }
@@ -159,7 +188,8 @@ namespace DrawingApp
             };
             this.Background = brush;
         }
-        StackPanel sp = new StackPanel();
+        static StackPanel sp = new StackPanel();
+        static Grid sizebar = new Grid();
         public void CreateToolBar()
         {
             sp.Children.Clear();
@@ -176,6 +206,8 @@ namespace DrawingApp
                     }
                 }
             }
+            sp.Children.Add(sizebar);
+            sizebar.Children.OfType<Label>().First().Content = $"{this.ToolAttributes.Width} pt";
             MainWindow.options.Child = sp;
             
         }
@@ -189,6 +221,19 @@ namespace DrawingApp
             foreach (Tipus t in tipusok) new Eszkozok(t, MainWindow.Foreground, Tipus.None);
             foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Red, Brushes.Orange, Brushes.Green }) new Eszkozok(Tipus.Szin, sb, Tipus.Kiemelo);
             foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Black, Brushes.Blue, Brushes.Red }) new Eszkozok(Tipus.Szin, sb, Tipus.Toll);
+            for(int i = 0; i<3;i++)sizebar.ColumnDefinitions.Add(new ColumnDefinition());
+            Label size = new Label();
+            size.Content = "0 pt";
+            size.Foreground = MainWindow.Foreground;
+            size.FontSize = 20;
+            size.Margin = new Thickness(20, 0, 0, 0);
+            size.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./assets/#Comic Relief");
+            Eszkozok grow = new Eszkozok(Tipus.Grow, MainWindow.Foreground, Tipus.None);
+            Grid.SetColumn(size, 1);
+            Grid.SetColumn(grow, 2);
+            sizebar.Children.Add(size);
+            sizebar.Children.Add(grow);
+            sizebar.Children.Add(new Eszkozok(Tipus.Shrink, MainWindow.Foreground, Tipus.None));
         }
     }
 }
