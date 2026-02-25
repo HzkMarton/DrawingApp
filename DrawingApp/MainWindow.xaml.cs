@@ -28,7 +28,6 @@ namespace DrawingApp
             this.ToolContainer.Background = Background;
             this.MainContainer.Background = Background;
             Initialize();
-            
         }
         private void Initialize()
         {
@@ -38,6 +37,7 @@ namespace DrawingApp
                 if (e._tipus == Eszkozok.Tipus.Szin) continue;
                 this.toolBar.Children.Add(e);
             }
+            Eszkozok.ToolContainer.Where(x => x._tipus == Eszkozok.Tipus.Toll).First().CreateToolBar();
         }
     }
 }

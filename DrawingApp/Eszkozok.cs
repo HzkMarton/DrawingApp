@@ -32,14 +32,23 @@ namespace DrawingApp
             this._tipus = tipus;
             this._selfColor = selfColor;
             this._linkedTo = link;
-            SetIcon(svgIcons[this._tipus]);
             this.Width = 30;
             this.Height = 30;
-            this.Margin = new System.Windows.Thickness(0, 20, 0, 0);
-            if(this._tipus == Tipus.Szin)this.CornerRadius = new System.Windows.CornerRadius(20);
-            this.ToolAttributes = new DrawingAttributes();
-            this._selected = false; 
             this.Cursor = Cursors.Hand;
+            this.ToolAttributes = new DrawingAttributes();
+            this._selected = false;
+            if (this._tipus == Tipus.Szin)
+            {
+                this.CornerRadius = new System.Windows.CornerRadius(20);
+                this.Margin = new System.Windows.Thickness(20, 0, 0, 0);
+                if(selfColor == Brushes.Black && link == Tipus.Toll) this._selected = true;
+                else if (selfColor == Brushes.Red && link == Tipus.Kiemelo) this._selected = true;
+            }
+            else
+            {
+                this.Margin = new System.Windows.Thickness(0, 20, 0, 0);
+            }
+            
             if (this._tipus == Tipus.Kiemelo)
             {
                 this.ToolAttributes.IsHighlighter = true;
@@ -55,19 +64,27 @@ namespace DrawingApp
                 this.ToolAttributes.Width = 3;
                 this.ToolAttributes.Height = 3;
                 MainWindow.ink.DefaultDrawingAttributes = this.ToolAttributes;
+                this.GrowReset(false);
                 this._selected = true;
             }
             this.MouseEnter += Eszkozok_MouseEnter;
             this.MouseLeave += Eszkozok_MouseLeave;
             this.MouseDown += Eszkozok_MouseDown;
+            SetIcon(svgIcons[this._tipus]);
             ToolContainer.Add(this);
         }
 
         private void Eszkozok_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             MainWindow.ink.EditingMode = InkCanvasEditingMode.Ink;
-            foreach(Eszkozok f in  ToolContainer) f._selected = false;
+            foreach (Eszkozok f in ToolContainer)
+            {
+                if(this._tipus == Tipus.Szin && f._tipus == Tipus.Szin && f._linkedTo == this._linkedTo)f._selected = false;
+                else if (this._tipus != Tipus.Szin && f._tipus != Tipus.Szin) f._selected = false;
+              
+            }
             this._selected = true;
+            foreach (Eszkozok f in ToolContainer) f.GrowReset(true);
             switch (this._tipus)
             {
                 case Tipus.Radir:
@@ -95,15 +112,34 @@ namespace DrawingApp
         }
         private void GrowReset(bool isReset)
         {
-            if (isReset)
+            DoubleAnimation @grow = new DoubleAnimation()
             {
-                this.Width = 30;
-                this.Height = 30;
+                From = 30,
+                To = 40,
+                Duration = TimeSpan.FromMilliseconds(200)
+            };
+            DoubleAnimation @shrink = new DoubleAnimation()
+            {
+                From = 40,
+                To = 30,
+                Duration = TimeSpan.FromMilliseconds(200)
+            };
+
+            if (isReset && !this._selected)
+            {
+                if (this.Width != 30)
+                {
+                    this.BeginAnimation(WidthProperty, shrink);
+                    this.BeginAnimation(HeightProperty, shrink);
+                }
             }
             else
             {
-                this.Width = 40;
-                this.Height = 40;
+                if (!this._selected)
+                {
+                    this.BeginAnimation(WidthProperty, grow);
+                    this.BeginAnimation(HeightProperty, grow);
+                }
             }
         }
 
@@ -124,13 +160,21 @@ namespace DrawingApp
             this.Background = brush;
         }
         StackPanel sp = new StackPanel();
-        private void CreateToolBar()
+        public void CreateToolBar()
         {
             sp.Children.Clear();
             sp.Orientation = Orientation.Horizontal;
             foreach (Eszkozok e in ToolContainer)
             {
-                if (e._linkedTo == this._tipus) sp.Children.Add(e);
+                if (e._linkedTo == this._tipus)
+                {
+                    sp.Children.Add(e);
+                    if (e._selected)
+                    {
+                        e.Width = 40;
+                        e.Height = 40;
+                    }
+                }
             }
             MainWindow.options.Child = sp;
             
