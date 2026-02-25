@@ -8,23 +8,47 @@
         Title="Rajztábla" Height="450" Width="800">
     <Grid x:Name="MainContainer">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"></ColumnDefinition>
-            <ColumnDefinition Width="12*"></ColumnDefinition>
+            <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"/>
+            <ColumnDefinition Width="12*"/>
         </Grid.ColumnDefinitions>
-        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="0 5 5 5" CornerRadius="5">
-            <StackPanel Orientation="Vertical" x:Name="toolBar"></StackPanel>
+
+        <!-- Eszközök -->
+        <Border x:Name="ToolContainer"
+                Visibility="Collapsed"
+                Grid.Column="0"
+                BorderBrush="#1C2135" BorderThickness="2"
+                Margin="0 5 5 5" CornerRadius="5">
+            <StackPanel Orientation="Vertical" x:Name="toolBar"/>
         </Border>
-        <Grid Grid.Column="1">
+
+        <!-- Canvas -->
+        <Grid x:Name="DrawingArea"
+              Visibility="Collapsed"
+              Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="7*"></RowDefinition>
-                <RowDefinition Height="1*" MaxHeight="60" MinHeight="50"></RowDefinition>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="1*" MaxHeight="60" MinHeight="50"/>
             </Grid.RowDefinitions>
-            <Border x:Name="CanvasContainer" Grid.Row="0" Grid.Column="1" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="10"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <InkCanvas Name="canvas" Background="Transparent"></InkCanvas>
+            <Border x:Name="CanvasContainer"
+                    Grid.Row="0"
+                    BorderBrush="#1C2135" Background="White"
+                    BorderThickness="2" CornerRadius="10"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <InkCanvas Name="canvas" Background="Transparent"/>
             </Border>
-            <Border x:Name="Menu" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="0 0 0 5" CornerRadius="5">
-             
-            </Border>
+            <Border x:Name="Menu"
+                    Grid.Row="1"
+                    BorderBrush="#1C2135" BorderThickness="2"
+                    Margin="0 0 0 5" CornerRadius="5"/>
+        </Grid>
+        <!--Főmenu-->
+        <Grid x:Name="MainMenuOverlay"
+              Grid.ColumnSpan="2"
+              Background="#151A28"
+              Visibility="Visible">
+            <local:MainMenuView x:Name="MainMenuUserControl"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
         </Grid>
     </Grid>
 </Window>
