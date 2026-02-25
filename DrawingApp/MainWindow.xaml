@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
-        Title="Rajztábla" Height="450" Width="800">
+        Title="Rajztábla" Height="450" Width="800" KeyDown="Window_KeyDown">
     <Grid x:Name="MainContainer">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"/>
@@ -41,14 +41,21 @@
                     BorderBrush="#1C2135" BorderThickness="2"
                     Margin="0 0 0 5" CornerRadius="5"/>
         </Grid>
-        <!--Főmenu-->
-        <Grid x:Name="MainMenuOverlay"
-              Grid.ColumnSpan="2"
-              Background="#151A28"
-              Visibility="Visible">
+        <!--Főmenü-->
+        <Grid x:Name="MainMenuOverlay" Grid.ColumnSpan="2"
+      Background="#151A28" Visibility="Visible" Panel.ZIndex="99">
+
+            <!-- Startup-->
             <local:MainMenuView x:Name="MainMenuUserControl"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Width="360" Height="450"
+                        Visibility="Visible"/>
+            <!-- Pause-->
+            <local:PauseMenu x:Name="PauseMenuUserControl"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Width="600" Height="450"
+                     Visibility="Collapsed"/>
         </Grid>
+
     </Grid>
 </Window>

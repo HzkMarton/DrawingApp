@@ -51,9 +51,9 @@
                 <TextBlock Text="Rajz tábla" FontSize="28" FontWeight="SemiBold" Foreground="#1C2135" HorizontalAlignment="Center"/>
             </StackPanel>
 
-            <!-- Gombok -->
+            <!-- Buttons -->
             <StackPanel Grid.Row="2">
-                <Button Style="{StaticResource MenuButtonStyle}" Content="Új"       Click="UjCanvas_Click"/>
+                <Button Style="{StaticResource MenuButtonStyle}" Content="Új" Click="UjCanvas_Click"/>
                 <Button Style="{StaticResource MenuButtonStyle}" Content="Betöltés" Click="Betoltes_Click"/>
                 <Button Style="{StaticResource MenuButtonStyle}" Content="Beállítások" Click="Beallitasok_Click"/>
                 <Separator Margin="0,6,0,14"/>
