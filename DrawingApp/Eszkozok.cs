@@ -17,7 +17,7 @@ namespace DrawingApp
 {
     internal class Eszkozok : Border
     {
-        public enum Tipus { Radir, Szin, Kiemelo, Toll, Grow, Shrink, None}
+        public enum Tipus { Radir, Szin, Kiemelo, Toll, Grow, Shrink, Paletta, None}
 
         public Tipus _tipus;
         private bool _selected;
@@ -44,7 +44,7 @@ namespace DrawingApp
                 if(selfColor == Brushes.Black && link == Tipus.Toll) this._selected = true;
                 else if (selfColor == Brushes.Red && link == Tipus.Kiemelo) this._selected = true;
             }
-            else if(this._tipus == Tipus.Grow || this._tipus == Tipus.Shrink) this.Margin = new System.Windows.Thickness(20, 0, 0, 0);
+            else if(this._tipus == Tipus.Grow || this._tipus == Tipus.Shrink || this._tipus == Tipus.Paletta) this.Margin = new System.Windows.Thickness(20, 0, 0, 0);
             else
             {
                 this.Margin = new System.Windows.Thickness(0, 20, 0, 0);
@@ -126,6 +126,12 @@ namespace DrawingApp
                     }
                     if (currentS._tipus == Tipus.Radir) MainWindow.ink.EraserShape = new EllipseStylusShape(currentS.Width, currentS.Height);
                     sizebar.Children.OfType<Label>().First().Content = $"{currentS.ToolAttributes.Width} pt";
+                    break;
+                case Tipus.Paletta:
+                    Eszkozok szin = Eszkozok.ToolContainer.Where(x => x._tipus == Tipus.Szin && x._linkedTo == this._linkedTo && x._selected == true).First();
+                    szin._selfColor = Brushes.Aqua;
+                    szin.Background = Brushes.Aqua;
+                    Eszkozok.ToolContainer.Where(x => x._tipus == this._linkedTo).First().ToolAttributes.Color = Brushes.Aqua.Color;
                     break;
             }
         }
@@ -219,8 +225,9 @@ namespace DrawingApp
             if (svgIcons == null) throw new Exception("Nem sikerült az ikonok betöltése");
             Tipus[] tipusok = {Tipus.Toll, Tipus.Kiemelo, Tipus.Radir };
             foreach (Tipus t in tipusok) new Eszkozok(t, MainWindow.Foreground, Tipus.None);
-            foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Red, Brushes.Orange, Brushes.Green }) new Eszkozok(Tipus.Szin, sb, Tipus.Kiemelo);
-            foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Black, Brushes.Blue, Brushes.Red }) new Eszkozok(Tipus.Szin, sb, Tipus.Toll);
+            foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Red, Brushes.Orange, Brushes.Yellow, Brushes.Green, Brushes.Blue }) new Eszkozok(Tipus.Szin, sb, Tipus.Kiemelo);
+            foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Black, Brushes.Red, Brushes.Orange, Brushes.Blue, Brushes.MediumPurple }) new Eszkozok(Tipus.Szin, sb, Tipus.Toll);
+            new Eszkozok(Tipus.Paletta, MainWindow.Foreground, Tipus.Toll);
             for(int i = 0; i<3;i++)sizebar.ColumnDefinitions.Add(new ColumnDefinition());
             Label size = new Label();
             size.Content = "0 pt";
@@ -234,6 +241,7 @@ namespace DrawingApp
             sizebar.Children.Add(size);
             sizebar.Children.Add(grow);
             sizebar.Children.Add(new Eszkozok(Tipus.Shrink, MainWindow.Foreground, Tipus.None));
+            sizebar.Margin = new Thickness(30, 0, 0, 0);
         }
     }
 }

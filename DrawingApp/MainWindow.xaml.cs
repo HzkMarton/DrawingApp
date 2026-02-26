@@ -24,9 +24,10 @@ namespace DrawingApp
         private void Initialize()
         {
             Eszkozok.Initialize();
+            Eszkozok.Tipus[] toSkip = { Eszkozok.Tipus.Shrink, Eszkozok.Tipus.Grow, Eszkozok.Tipus.Szin, Eszkozok.Tipus.Paletta };
             foreach (Eszkozok e in Eszkozok.ToolContainer)
             {
-                if (e._tipus == Eszkozok.Tipus.Szin || e._tipus == Eszkozok.Tipus.Grow || e._tipus == Eszkozok.Tipus.Shrink) continue;
+                if (toSkip.Contains(e._tipus)) continue;
                 this.toolBar.Children.Add(e);
             }
             Eszkozok.ToolContainer.Where(x => x._tipus == Eszkozok.Tipus.Toll).First().CreateToolBar();
