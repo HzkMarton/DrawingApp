@@ -5,57 +5,73 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
-        Title="Rajztábla" Height="450" Width="800" PreviewKeyDown="Window_KeyDown">
+        Title="Rajztábla" Height="450" Width="800" PreviewKeyDown="Window_PreviewKeyDown">
+    <Window.Resources>
+        <Style TargetType="MenuItem">
+            <Setter Property="Background"  Value="#1C2135"/>
+            <Setter Property="Foreground"  Value="White"/>
+            <Setter Property="FontSize"    Value="13"/>
+        </Style>
+        <Style TargetType="Menu">
+            <Setter Property="Background"  Value="#1C2135"/>
+            <Setter Property="Foreground"  Value="White"/>
+        </Style>
+    </Window.Resources>
+
     <Grid x:Name="MainContainer">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="12*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Navbar -->
+        <Viewbox Grid.Row="0" Grid.ColumnSpan="2"
+         Stretch="Uniform" HorizontalAlignment="Left">
+            <Menu Background="#1C2135" Foreground="White"
+          Width="800" FontSize="16">
+                <MenuItem Header="Fájl">
+                    <MenuItem Header="Új" Click="UjCanvas_Click"/>
+                    <MenuItem Header="Betöltés" Click="Betoltes_Click"/>
+                    <MenuItem Header="Mentés" Click="Mentes_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Kilépés" Click="Exit_Click"/>
+                </MenuItem>
+                <MenuItem Header="Szerkesztés">
+                    <MenuItem Header="Visszavonás" Click="Undo_Click"/>
+                    <MenuItem Header="Újra" Click="Redo_Click"/>
+                </MenuItem>
+                <MenuItem Header="Nézet">
+                    <MenuItem Header="Téma">
+                        <MenuItem Header="Fekete" Click="TemaFekete_Click"/>
+                        <MenuItem Header="Fehér" Click="TemaFeher_Click"/>
+                        <MenuItem Header="Kék (alapértelmezett)" Click="TemaKek_Click"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Súgó">
+                    <MenuItem Header="Információ" Click="Info_Click"/>
+                </MenuItem>
+            </Menu>
+        </Viewbox>
+
         <!-- Eszközök -->
-        <Border x:Name="ToolContainer"
-                Visibility="Collapsed"
-                Grid.Column="0"
-                BorderBrush="#1C2135" BorderThickness="2"
-                Margin="0 5 5 5" CornerRadius="5">
+        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="0 5 5 5" CornerRadius="5">
             <StackPanel Orientation="Vertical" x:Name="toolBar"/>
         </Border>
 
         <!-- Canvas -->
-        <Grid x:Name="DrawingArea"
-              Visibility="Collapsed"
-              Grid.Column="1">
+        <Grid x:Name="DrawingArea" Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="7*"/>
                 <RowDefinition Height="1*" MaxHeight="60" MinHeight="50"/>
             </Grid.RowDefinitions>
-            <Border x:Name="CanvasContainer"
-                    Grid.Row="0"
-                    BorderBrush="#1C2135" Background="White"
-                    BorderThickness="2" CornerRadius="10"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border x:Name="CanvasContainer" Grid.Row="0" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <InkCanvas Name="canvas" Background="Transparent"/>
             </Border>
-            <Border x:Name="Menu"
-                    Grid.Row="1"
-                    BorderBrush="#1C2135" BorderThickness="2"
-                    Margin="0 0 0 5" CornerRadius="5"/>
+            <Border x:Name="Menu" Grid.Row="1" BorderBrush="#1C2135" BorderThickness="2" Margin="0 0 0 5" CornerRadius="5"/>
         </Grid>
-        <!--Főmenü-->
-        <Grid x:Name="MainMenuOverlay" Grid.ColumnSpan="2"
-      Background="#151A28" Visibility="Visible" Panel.ZIndex="99">
-
-            <!-- Startup-->
-            <local:MainMenuView x:Name="MainMenuUserControl"
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Width="360" Height="450"
-                        Visibility="Visible"/>
-            <!-- Pause-->
-            <local:PauseMenu x:Name="PauseMenuUserControl"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                     Width="600" Height="450"
-                     Visibility="Collapsed"/>
-        </Grid>
-
     </Grid>
 </Window>

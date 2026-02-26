@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace DrawingApp
 {
@@ -12,7 +14,9 @@ namespace DrawingApp
         public static Border options;
         public static SolidColorBrush Background = new SolidColorBrush(Color.FromRgb(21, 26, 40));
         public static SolidColorBrush Foreground = new SolidColorBrush(Color.FromRgb(179, 185, 200));
-
+        // Undo és Redo műveletekhez vonalak tárolása Stack-ben (utolsó vonal kerül előre, dettó ugyanaz, mint egy List)
+        private Stack<System.Windows.Ink.Stroke> _undoStack = new(); 
+        private Stack<System.Windows.Ink.Stroke> _redoStack = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -20,12 +24,19 @@ namespace DrawingApp
             options = this.Menu;
             this.ToolContainer.Background = Background;
             this.MainContainer.Background = Background;
-            Initialize(); 
-            MainMenuUserControl.StartDrawingClicked += OnStartDrawingClicked; // MainMenu → Canvas
-            PauseMenuUserControl.ResumeClicked += OnResumeClicked; // PauseMenu → Canvas
-            PauseMenuUserControl.BackToMainMenuClicked += OnBackToMainMenuClicked; // PauseMenu → MainMenu
+            Initialize();
+            // Undo/Redo vonalak követése
+            ink.Strokes.StrokesChanged += Vonal_Valtoztatas;
         }
-        //Eszközök inicializálása és hozzáadása a ToolBar-hoz
+        private void Vonal_Valtoztatas(object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
+        {
+            foreach (var stroke in e.Added)
+            {
+                _undoStack.Push(stroke); // új vonal hozzáadása az undo stackhez
+                _redoStack.Clear();   // új rajz esetén a redo stack törlése
+            }
+        }
+        
         private void Initialize()
         {
             Eszkozok.Initialize();
@@ -39,30 +50,82 @@ namespace DrawingApp
                      .First()
                      .CreateToolBar();
         }
-        // MainMenu → Canvas
-        private void OnStartDrawingClicked(object sender, EventArgs e)
+
+        // Navbar
+        private void UjCanvas_Click(object sender, RoutedEventArgs e)
         {
-            MainMenuOverlay.Visibility = Visibility.Collapsed;
-            ToolContainer.Visibility = Visibility.Visible;
-            DrawingArea.Visibility = Visibility.Visible;
+            ink.Strokes.Clear();
+            var picker = new ColorPickerWindow { Owner = Application.Current.MainWindow };
+            if (picker.ShowDialog() == true)
+            {
+                Color chosen = picker.KivalasztottSzin;
+                MainWindow.ink.DefaultDrawingAttributes.Color = chosen;
+            }
+        }
+        private void Betoltes_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog
+            { Filter = "Ink files (*.isf)|*.isf|Minden fájl (*.*)|*.*" };
+            if (dlg.ShowDialog() != true) return;
+            try
+            {
+                using FileStream fs = new FileStream(dlg.FileName, FileMode.Open);
+                ink.Strokes = new StrokeCollection(fs);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba a betöltéskor: " + ex.Message,"Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        // PauseMenu → Canvas
-        private void OnResumeClicked(object sender, EventArgs e)
+        private void Mentes_Click(object sender, RoutedEventArgs e)
         {
-            MainMenuOverlay.Visibility = Visibility.Collapsed;
+            SaveFileDialog dlg = new SaveFileDialog
+            { Filter = "Ink files (*.isf)|*.isf|Minden fájl (*.*)|*.*" };
+            if (dlg.ShowDialog() != true) return;
+            try
+            {
+                using FileStream fs = new FileStream(dlg.FileName, FileMode.Create);
+                ink.Strokes.Save(fs);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba a mentéskor: " + ex.Message,"Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void Undo_Click(object sender, RoutedEventArgs e)
+        {
+            if (_undoStack.Count == 0) return;
+            var stroke = _undoStack.Pop();
+            ink.Strokes.StrokesChanged -= Vonal_Valtoztatas;   // megelőzi a többszöri meghívást
+            ink.Strokes.Remove(stroke); // eltávolítja a vonalat
+            ink.Strokes.StrokesChanged += Vonal_Valtoztatas; // visszaállítja a változáskövetést
+            _redoStack.Push(stroke); // hozzáadja a redo stackhez, hogy lehessen redo-zni
         }
 
-        // PauseMenu → MainMenu
-        private void OnBackToMainMenuClicked(object sender, EventArgs e)
+        private void Redo_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ink.Strokes.Clear();
-            PauseMenuUserControl.Visibility = Visibility.Collapsed;
-            MainMenuUserControl.Visibility = Visibility.Visible;
-            MainMenuOverlay.Visibility = Visibility.Visible;
-            ToolContainer.Visibility = Visibility.Collapsed;
-            DrawingArea.Visibility = Visibility.Collapsed;
+            if (_redoStack.Count == 0) return;
+            var stroke = _redoStack.Pop();
+            ink.Strokes.StrokesChanged -= Vonal_Valtoztatas;   // megelőzi a többszöri meghívást
+            ink.Strokes.Add(stroke); // újra hozzáadja a vonalat
+            ink.Strokes.StrokesChanged += Vonal_Valtoztatas; // visszaállítja a változáskövetést
+            _undoStack.Push(stroke); // visszahelyezi az undo stackre, hogy újra lehessen undo-zni
         }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        private void Info_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Rajzoló alkalmazás\nKészítette: RPT Industries\n2025",
+                               "Információ", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void TemaFekete_Click(object sender, RoutedEventArgs e) => TemaValtas("fekete");
+        private void TemaFeher_Click(object sender, RoutedEventArgs e) => TemaValtas("fehér");
+        private void TemaKek_Click(object sender, RoutedEventArgs e) => TemaValtas("kék");
+
         public void TemaValtas(string themeName)
         {
             Color bg;
@@ -86,27 +149,31 @@ namespace DrawingApp
             Foreground = new SolidColorBrush(fg);
             this.MainContainer.Background = Background;
             this.ToolContainer.Background = Background;
-            this.MainMenuOverlay.Background = Background;
         }
-        // Escape
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            // Ctrl + Z → Visszavonás
+            if (e.Key == Key.Z && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
-                if (MainMenuOverlay.Visibility == Visibility.Visible)
-                {
-                    if (PauseMenuUserControl.Visibility == Visibility.Visible)
-                        OnResumeClicked(this, EventArgs.Empty);
-                }
-                else
-                {
-                    // Show
-                    MainMenuUserControl.Visibility = Visibility.Collapsed;
-                    PauseMenuUserControl.Visibility = Visibility.Visible;
-                    MainMenuOverlay.Visibility = Visibility.Visible;
-                }
+                Undo_Click(sender, e);
+                e.Handled = true;
             }
-            e.Handled = true; // Megakadályozza, hogy az Escape billentyű lenyomása után más ne történjen.
+
+            // Ctrl + Y → Újra
+            if (e.Key == Key.Y && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                Redo_Click(sender, e);
+                e.Handled = true;
+            }
+
+            // Ctrl + S → Mentés
+            if (e.Key == Key.S && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                Mentes_Click(sender, e);
+                e.Handled = true;
+            }
         }
+
     }
 }
