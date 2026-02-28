@@ -7,14 +7,65 @@
         mc:Ignorable="d"
         Title="Rajztábla" Height="450" Width="800" PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
-        <Style TargetType="MenuItem">
-            <Setter Property="Background"  Value="#1C2135"/>
-            <Setter Property="Foreground"  Value="White"/>
-            <Setter Property="FontSize"    Value="13"/>
-        </Style>
         <Style TargetType="Menu">
-            <Setter Property="Background"  Value="#1C2135"/>
-            <Setter Property="Foreground"  Value="White"/>
+            <Setter Property="Background" Value="#1C2135"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="#1C2135"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize"   Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                Padding="10 4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Grid.Column="1"
+                                                  ContentSource="Header"
+                                                  VerticalAlignment="Center"/>
+                                <Path Grid.Column="2"
+                                      x:Name="Arrow"
+                                      Data="M 0 0 L 4 4 L 0 8"
+                                      Stroke="White" StrokeThickness="1.5"
+                                      VerticalAlignment="Center"
+                                      Margin="8 0 2 0"
+                                      Visibility="Collapsed"/>
+                                <Popup x:Name="Popup"
+                                       IsOpen="{TemplateBinding IsSubmenuOpen}"
+                                       Placement="Right"
+                                       AllowsTransparency="True"
+                                       Focusable="False">
+                                    <Border Background="#1C2135"
+                                            BorderBrush="#2E3553"
+                                            BorderThickness="1"
+                                            CornerRadius="4">
+                                        <ItemsPresenter/>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#2E3553"/>
+                            </Trigger>
+                            <Trigger Property="IsSubmenuOpen" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#2E3553"/>
+                                <Setter TargetName="Arrow"  Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="Role" Value="SubmenuHeader">
+                                <Setter TargetName="Arrow" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
@@ -24,7 +75,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="1*" MaxWidth="60" MinWidth="40"/>
             <ColumnDefinition Width="12*"/>
         </Grid.ColumnDefinitions>
 
@@ -58,7 +109,7 @@
         </Viewbox>
 
         <!-- Eszközök -->
-        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" BorderBrush="#1C2135" BorderThickness="2" Margin="0 5 5 5" CornerRadius="5">
+        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" Margin="0 5 5 5" CornerRadius="5">
             <StackPanel Orientation="Vertical" x:Name="toolBar"/>
         </Border>
 
@@ -68,10 +119,10 @@
                 <RowDefinition Height="7*"/>
                 <RowDefinition Height="1*" MaxHeight="60" MinHeight="50"/>
             </Grid.RowDefinitions>
-            <Border x:Name="CanvasContainer" Grid.Row="0" BorderBrush="#1C2135" Background="White" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border x:Name="CanvasContainer" Grid.Row="0"  Background="White" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <InkCanvas Name="canvas" Background="Transparent"/>
             </Border>
-            <Border x:Name="Menu" Grid.Row="1" BorderBrush="#1C2135" BorderThickness="2" Margin="0 0 0 5" CornerRadius="5"/>
+            <Border x:Name="Menu" Grid.Row="1" Margin="0 0 0 5" CornerRadius="5"/>
         </Grid>
     </Grid>
 </Window>
