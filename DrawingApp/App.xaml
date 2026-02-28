@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:DrawingApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="MainFont">./assets/#Comic Relief</FontFamily>
     </Application.Resources>
 </Application>
