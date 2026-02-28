@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -18,7 +19,6 @@ namespace DrawingApp
     internal class Eszkozok : Border
     {
         public enum Tipus { Radir, Szin, Kiemelo, Toll, Grow, Shrink, Paletta, None}
-
         public Tipus _tipus;
         private bool _selected;
         private SolidColorBrush _selfColor;
@@ -210,37 +210,51 @@ namespace DrawingApp
                 }
             }
             sp.Children.Add(sizebar);
-            sizebar.Children.OfType<Label>().First().Content = $"{this.ToolAttributes.Width} pt";
+            Label s = sizebar.Children.OfType<Label>().First();
+            s.Content = $"{this.ToolAttributes.Width} pt";
             MainWindow.options.Child = sp;
             
         }
 
         public static void Initialize()
         {
+            SolidColorBrush c = Application.Current.Resources["ForeGround"] as SolidColorBrush;
             StreamReader sr = new StreamReader("assets/icons.json");
             svgIcons = JsonSerializer.Deserialize<Dictionary<Tipus, string>>(sr.ReadToEnd());
             if (svgIcons == null) throw new Exception("Nem sikerült az ikonok betöltése");
             Tipus[] tipusok = {Tipus.Toll, Tipus.Kiemelo, Tipus.Radir };
-            foreach (Tipus t in tipusok) new Eszkozok(t, MainWindow.Foreground, Tipus.None);
+            foreach (Tipus t in tipusok) new Eszkozok(t, c, Tipus.None);
             foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Red, Brushes.Orange, Brushes.Yellow, Brushes.Green, Brushes.Blue }) new Eszkozok(Tipus.Szin, sb, Tipus.Kiemelo);
             foreach (SolidColorBrush sb in new SolidColorBrush[] { Brushes.Black, Brushes.Red, Brushes.Orange, Brushes.Blue, Brushes.MediumPurple }) new Eszkozok(Tipus.Szin, sb, Tipus.Toll);
-            new Eszkozok(Tipus.Paletta, MainWindow.Foreground, Tipus.Toll);
+            new Eszkozok(Tipus.Paletta, c, Tipus.Toll);
             for(int i = 0; i<3;i++)sizebar.ColumnDefinitions.Add(new ColumnDefinition());
             Label size = new Label();
             size.Content = "0 pt";
-            size.Foreground = MainWindow.Foreground;
+            size.SetResourceReference(Control.ForegroundProperty, "ForeGround");
             size.FontSize = 20;
             size.Margin = new Thickness(20, 0, 0, 0);
             size.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./assets/#Comic Relief");
             size.VerticalAlignment = VerticalAlignment.Center;
             size.FontWeight = FontWeights.Bold;
-            Eszkozok grow = new Eszkozok(Tipus.Grow, MainWindow.Foreground, Tipus.None);
+            Eszkozok grow = new Eszkozok(Tipus.Grow, c, Tipus.None);
             Grid.SetColumn(size, 1);
             Grid.SetColumn(grow, 2);
             sizebar.Children.Add(size);
             sizebar.Children.Add(grow);
-            sizebar.Children.Add(new Eszkozok(Tipus.Shrink, MainWindow.Foreground, Tipus.None));
+            sizebar.Children.Add(new Eszkozok(Tipus.Shrink, c, Tipus.None));
             sizebar.Margin = new Thickness(30, 0, 0, 0);
+        }
+        public static void ReColor()
+        {
+            SolidColorBrush c = Application.Current.Resources["ForeGround"] as SolidColorBrush;
+            foreach (Eszkozok e in ToolContainer)
+            {
+                if(e._tipus != Tipus.Szin)
+                {
+                    e._selfColor = c;
+                    e.SetIcon(svgIcons[e._tipus]);
+                }
+            }
         }
     }
 }

@@ -12,8 +12,6 @@ namespace DrawingApp
     {
         public static InkCanvas ink;
         public static Border options;
-        public static SolidColorBrush Background = new SolidColorBrush(Color.FromRgb(21, 26, 40));
-        public static SolidColorBrush Foreground = new SolidColorBrush(Color.FromRgb(179, 185, 200));
         // Undo és Redo műveletekhez vonalak tárolása Stack-ben (utolsó vonal kerül előre, dettó ugyanaz, mint egy List)
         private Stack<System.Windows.Ink.Stroke> _undoStack = new(); 
         private Stack<System.Windows.Ink.Stroke> _redoStack = new();
@@ -22,8 +20,6 @@ namespace DrawingApp
             InitializeComponent();
             ink = this.canvas;
             options = this.Menu;
-            this.ToolContainer.Background = Background;
-            this.MainContainer.Background = Background;
             Initialize();
             // Undo/Redo vonalak követése
             ink.Strokes.StrokesChanged += Vonal_Valtoztatas;
@@ -110,7 +106,8 @@ namespace DrawingApp
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            MessageBoxResult messageBoxResult = MessageBox.Show("A NEM mentett módosítások el fognak VESZNI, biztosan folytatja?", "Figyelem!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (messageBoxResult == MessageBoxResult.Yes) Application.Current.Shutdown();
         }
         private void Info_Click(object sender, RoutedEventArgs e)
         {
@@ -124,27 +121,25 @@ namespace DrawingApp
 
         public void TemaValtas(string themeName)
         {
-            Color bg;
-            Color fg;
             switch (themeName.ToLower())
             {
                 case "fekete":
-                    bg = Colors.Black;
-                    fg = Colors.White;
+                    Application.Current.Resources["BackGround"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#131314"));
+                    Application.Current.Resources["ForeGround"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3E3E3"));
+                    Application.Current.Resources["BorderColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E1F20"));
                     break;
                 case "fehér":
-                    bg = Colors.White;
-                    fg = Colors.Black;
+                    Application.Current.Resources["BackGround"] = new SolidColorBrush(Colors.White);
+                    Application.Current.Resources["ForeGround"] = new SolidColorBrush(Colors.Black);
+                    Application.Current.Resources["BorderColor"] = new SolidColorBrush(Colors.GhostWhite);
                     break;
                 default:
-                    bg = Color.FromRgb(21, 26, 40);
-                    fg = Color.FromRgb(179, 185, 200);
+                    Application.Current.Resources["BackGround"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#151A28"));
+                    Application.Current.Resources["ForeGround"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3B9C8"));
+                    Application.Current.Resources["BorderColor"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1C2135"));
                     break;
             }
-            Background = new SolidColorBrush(bg);
-            Foreground = new SolidColorBrush(fg);
-            this.MainContainer.Background = Background;
-            this.ToolContainer.Background = Background;
+            Eszkozok.ReColor();
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -171,5 +166,19 @@ namespace DrawingApp
             }
         }
 
+        private void FullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if(this.WindowStyle == WindowStyle.None)
+            {
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.None;
+            }
+            
+        }
     }
 }
