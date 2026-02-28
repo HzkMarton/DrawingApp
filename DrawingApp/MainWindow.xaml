@@ -8,13 +8,12 @@
         Title="Rajztábla" Height="450" Width="800" PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <Style TargetType="Menu">
-            <Setter Property="Background" Value="#1C2135"/>
+            <Setter Property="Background" Value="#151A28"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
         <Style TargetType="MenuItem">
-            <Setter Property="Background" Value="#1C2135"/>
+            <Setter Property="Background" Value="#151A28"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize"   Value="13"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="MenuItem">
@@ -42,7 +41,7 @@
                                        Placement="Right"
                                        AllowsTransparency="True"
                                        Focusable="False">
-                                    <Border Background="#1C2135"
+                                    <Border Background="#151A28"
                                             BorderBrush="#2E3553"
                                             BorderThickness="1"
                                             CornerRadius="4">
@@ -71,7 +70,7 @@
 
     <Grid x:Name="MainContainer">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" MaxHeight="27"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -81,9 +80,9 @@
 
         <!-- Navbar -->
         <Viewbox Grid.Row="0" Grid.ColumnSpan="2"
-         Stretch="Uniform" HorizontalAlignment="Left">
-            <Menu Background="#1C2135" Foreground="White"
-          Width="800" FontSize="16" FontFamily="{StaticResource MainFont}">
+          HorizontalAlignment="Left">
+            <Menu 
+          HorizontalAlignment="Stretch" FontSize="16" FontFamily="{StaticResource MainFont}">
                 <MenuItem Header="Fájl">
                     <MenuItem Header="Új" Click="UjCanvas_Click"/>
                     <MenuItem Header="Betöltés" Click="Betoltes_Click"/>

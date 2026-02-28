@@ -83,7 +83,7 @@ namespace DrawingApp
 
         private void Eszkozok_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (this._tipus != Tipus.Grow && this._tipus != Tipus.Shrink)
+            if (this._tipus != Tipus.Grow && this._tipus != Tipus.Shrink && this._tipus != Tipus.Paletta)
             {
                 MainWindow.ink.EditingMode = InkCanvasEditingMode.Ink;
                 foreach (Eszkozok f in ToolContainer)
@@ -154,32 +154,24 @@ namespace DrawingApp
         {
             DoubleAnimation @grow = new DoubleAnimation()
             {
-                From = 30,
                 To = 40,
                 Duration = TimeSpan.FromMilliseconds(200)
             };
             DoubleAnimation @shrink = new DoubleAnimation()
             {
-                From = 40,
                 To = 30,
                 Duration = TimeSpan.FromMilliseconds(200)
             };
-
-            if (isReset && !this._selected)
+            if (this._selected) return;
+            if (isReset)
             {
-                if (this.Width != 30)
-                {
-                    this.BeginAnimation(WidthProperty, shrink);
-                    this.BeginAnimation(HeightProperty, shrink);
-                }
+                this.BeginAnimation(WidthProperty, shrink);
+                this.BeginAnimation(HeightProperty, shrink);
             }
             else
             {
-                if (!this._selected)
-                {
-                    this.BeginAnimation(WidthProperty, grow);
-                    this.BeginAnimation(HeightProperty, grow);
-                }
+                this.BeginAnimation(WidthProperty, grow);
+                this.BeginAnimation(HeightProperty, grow);
             }
         }
 
@@ -240,6 +232,8 @@ namespace DrawingApp
             size.FontSize = 20;
             size.Margin = new Thickness(20, 0, 0, 0);
             size.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./assets/#Comic Relief");
+            size.VerticalAlignment = VerticalAlignment.Center;
+            size.FontWeight = FontWeights.Bold;
             Eszkozok grow = new Eszkozok(Tipus.Grow, MainWindow.Foreground, Tipus.None);
             Grid.SetColumn(size, 1);
             Grid.SetColumn(grow, 2);

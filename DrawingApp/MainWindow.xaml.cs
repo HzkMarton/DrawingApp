@@ -55,7 +55,8 @@ namespace DrawingApp
         // Navbar
         private void UjCanvas_Click(object sender, RoutedEventArgs e)
         {
-            ink.Strokes.Clear();
+            MessageBoxResult messageBoxResult = MessageBox.Show("A NEM mentett módosítások el fognak VESZNI, biztosan folytatja?", "Figyelem!", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if(messageBoxResult == MessageBoxResult.Yes)ink.Strokes.Clear();
         }
         private void Betoltes_Click(object sender, RoutedEventArgs e)
         {
