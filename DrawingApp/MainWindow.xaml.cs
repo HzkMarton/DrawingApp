@@ -56,12 +56,6 @@ namespace DrawingApp
         private void UjCanvas_Click(object sender, RoutedEventArgs e)
         {
             ink.Strokes.Clear();
-            var picker = new ColorPickerWindow { Owner = Application.Current.MainWindow };
-            if (picker.ShowDialog() == true)
-            {
-                Color chosen = picker.KivalasztottSzin;
-                MainWindow.ink.DefaultDrawingAttributes.Color = chosen;
-            }
         }
         private void Betoltes_Click(object sender, RoutedEventArgs e)
         {

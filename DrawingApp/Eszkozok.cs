@@ -128,10 +128,15 @@ namespace DrawingApp
                     sizebar.Children.OfType<Label>().First().Content = $"{currentS.ToolAttributes.Width} pt";
                     break;
                 case Tipus.Paletta:
-                    Eszkozok szin = Eszkozok.ToolContainer.Where(x => x._tipus == Tipus.Szin && x._linkedTo == this._linkedTo && x._selected == true).First();
-                    szin._selfColor = Brushes.Aqua;
-                    szin.Background = Brushes.Aqua;
-                    Eszkozok.ToolContainer.Where(x => x._tipus == this._linkedTo).First().ToolAttributes.Color = Brushes.Aqua.Color;
+                    ColorPickerWindow picker = new ColorPickerWindow { Owner = Application.Current.MainWindow };
+                    if (picker.ShowDialog() == true)
+                    {
+                        SolidColorBrush chosen = new SolidColorBrush(picker.KivalasztottSzin);
+                        Eszkozok szin = Eszkozok.ToolContainer.Where(x => x._tipus == Tipus.Szin && x._linkedTo == this._linkedTo && x._selected == true).First();
+                        szin._selfColor = chosen;
+                        szin.Background = chosen;
+                        Eszkozok.ToolContainer.Where(x => x._tipus == this._linkedTo).First().ToolAttributes.Color = chosen.Color;
+                    }
                     break;
             }
         }
