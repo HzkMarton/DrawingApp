@@ -5,5 +5,8 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <FontFamily x:Key="MainFont">./assets/#Comic Relief</FontFamily>
+        <Brush x:Key="ForeGround">#B3B9C8</Brush>
+        <Brush x:Key="BackGround">#151A28</Brush>
+        <Brush x:Key="BorderColor">#1C2135</Brush>
     </Application.Resources>
 </Application>

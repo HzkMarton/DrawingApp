@@ -5,16 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DrawingApp"
         mc:Ignorable="d"
-        Title="Rajztábla" Height="450" Width="800" PreviewKeyDown="Window_PreviewKeyDown">
+        Title="Rajztábla" Height="550" Width="800" PreviewKeyDown="Window_PreviewKeyDown" Background="{DynamicResource BackGround}">
     <Window.Resources>
         <Style TargetType="Menu">
-            <Setter Property="Background" Value="#1C2135"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{DynamicResource BackGround}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ForeGround}"/>
         </Style>
         <Style TargetType="MenuItem">
-            <Setter Property="Background" Value="#1C2135"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize"   Value="13"/>
+            <Setter Property="Background" Value="{DynamicResource BackGround}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ForeGround}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="MenuItem">
@@ -42,8 +41,8 @@
                                        Placement="Right"
                                        AllowsTransparency="True"
                                        Focusable="False">
-                                    <Border Background="#1C2135"
-                                            BorderBrush="#2E3553"
+                                    <Border Background="{DynamicResource BackGround}"
+                                            BorderBrush="{DynamicResource BorderColor}"
                                             BorderThickness="1"
                                             CornerRadius="4">
                                         <ItemsPresenter/>
@@ -53,10 +52,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#2E3553"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource BorderColor}"/>
                             </Trigger>
                             <Trigger Property="IsSubmenuOpen" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#2E3553"/>
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource BorderColor}"/>
                                 <Setter TargetName="Arrow"  Property="Visibility" Value="Visible"/>
                             </Trigger>
                             <Trigger Property="Role" Value="SubmenuHeader">
@@ -71,7 +70,7 @@
 
     <Grid x:Name="MainContainer">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" MaxHeight="27"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -81,9 +80,9 @@
 
         <!-- Navbar -->
         <Viewbox Grid.Row="0" Grid.ColumnSpan="2"
-         Stretch="Uniform" HorizontalAlignment="Left">
-            <Menu Background="#1C2135" Foreground="White"
-          Width="800" FontSize="16" FontFamily="{StaticResource MainFont}">
+          HorizontalAlignment="Left">
+            <Menu 
+          HorizontalAlignment="Stretch" FontSize="16" FontFamily="{StaticResource MainFont}">
                 <MenuItem Header="Fájl">
                     <MenuItem Header="Új" Click="UjCanvas_Click"/>
                     <MenuItem Header="Betöltés" Click="Betoltes_Click"/>
@@ -96,6 +95,7 @@
                     <MenuItem Header="Újra" Click="Redo_Click"/>
                 </MenuItem>
                 <MenuItem Header="Nézet">
+                    <MenuItem Header="Teljes képernyő" InputGestureText="F11" Click="FullScreen_Click"></MenuItem>
                     <MenuItem Header="Téma">
                         <MenuItem Header="Fekete" Click="TemaFekete_Click"/>
                         <MenuItem Header="Fehér" Click="TemaFeher_Click"/>
@@ -109,7 +109,7 @@
         </Viewbox>
 
         <!-- Eszközök -->
-        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" Margin="0 5 5 5" CornerRadius="5">
+        <Border x:Name="ToolContainer" Grid.Row="1" Grid.Column="0" Margin="0 5 5 5" CornerRadius="5" Background="{DynamicResource BackGround}">
             <StackPanel Orientation="Vertical" x:Name="toolBar"/>
         </Border>
 
@@ -122,7 +122,7 @@
             <Border x:Name="CanvasContainer" Grid.Row="0"  Background="White" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <InkCanvas Name="canvas" Background="Transparent"/>
             </Border>
-            <Border x:Name="Menu" Grid.Row="1" Margin="0 0 0 5" CornerRadius="5"/>
+            <Border x:Name="Menu" Grid.Row="1" Margin="0 0 0 5" CornerRadius="5" Background="{DynamicResource BackGround}"/>
         </Grid>
     </Grid>
 </Window>
