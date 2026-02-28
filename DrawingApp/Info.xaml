@@ -1,0 +1,142 @@
+﻿<Window x:Class="DrawingApp.Info"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DrawingApp"
+        mc:Ignorable="d"
+        Title="Info"
+        SizeToContent="Height"
+        Width="600"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.Resources>
+                <Style x:Key="TabButtonStyle" TargetType="Button">
+                    <Setter Property="FontSize" Value="30"/>
+                    <Setter Property="FontFamily" Value="{StaticResource MainFont}"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <StackPanel>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border x:Name="ActiveUnderline" Height="2" Background="#AAAAAA" Margin="0,8,0,0" Visibility="Collapsed"/>
+                                </StackPanel>
+                                <ControlTemplate.Triggers>
+                                    <!-- Aktív fül: nincs aláhúzás, fekete szöveg -->
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter TargetName="ActiveUnderline" Property="Visibility" Value="Collapsed"/>
+                                    </Trigger>
+                                    <!-- Inaktív fül: van aláhúzás, szürke szöveg -->
+                                    <Trigger Property="IsEnabled" Value="True">
+                                        <Setter Property="Foreground" Value="Gray"/>
+                                        <Setter Property="FontWeight" Value="Normal"/>
+                                        <Setter TargetName="ActiveUnderline" Property="Visibility" Value="Visible"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnInfo" Content="Információ" Grid.Column="0" Style="{StaticResource TabButtonStyle}" IsEnabled="False" Click="TabButton_Click"/>
+            <Rectangle Grid.Column="1" Width="2" Fill="#AAAAAA" VerticalAlignment="Stretch"/>
+            <Button x:Name="btnHelp" Content="Súgó" Grid.Column="2" Style="{StaticResource TabButtonStyle}" Click="TabButton_Click"/>
+            
+        </Grid>
+
+        <Grid x:Name="Info1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="A rajztábla alkalmazásról" FontWeight="Bold" FontSize="30" FontFamily="{StaticResource MainFont}" HorizontalAlignment="Center" Margin="0 10 0 20" Grid.Row="1"/>
+            <TextBlock TextWrapping="Wrap" Margin="16" FontSize="18" FontFamily="{StaticResource MainFont}"  Grid.Row="2" TextAlignment="Justify">
+                A Rajztábla egy egyszerű rajzoló alkalmazás szabadkézi rajzokhoz. Választhatsz különböző ecsetméreteket és színeket, valamint elmentheted elkészült alkotásaidat. A könnyen használható felület lehetőséget ad arra, hogy kreatívan kifejezd magad és jól szórakozz közben.
+            </TextBlock>
+            <!-- Források szekció -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,10">
+                <TextBlock FontFamily="{StaticResource MainFont}" FontSize="24">
+            <Run FontWeight="SemiBold">Források:</Run>
+            <Hyperlink NavigateUri="https://www.svgrepo.com" RequestNavigate="Link_Megnyitas" Foreground="#1C2135">
+                www.svgrepo.com
+            </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        
+        <Grid x:Name="Sugo" Grid.Row="1" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="0" Grid.Row="0" Margin="10" HorizontalAlignment="Center">
+                <TextBlock Text="Eszköztár" FontWeight="Bold" FontSize="30" Margin="0,0,0,5" HorizontalAlignment="Center" FontFamily="{StaticResource MainFont}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Ecset --&gt;</Run> Húzd az egeret a vásznon a vonalak megrajzolásához.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Radír --&gt;</Run> Törölhetők vele a már megrajzolt elemek.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Színválasztó --&gt;</Run> Kattints a festőhengerre az ecset színének megváltoztatásához.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Méretezés --&gt;</Run> Az ecset vastagságának állítása. Balra = vékony, jobbra = vastag.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Mentés gomb --&gt;</Run> A rajz .isf-ként történő elmentése a számítógépre.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Új rajz --&gt;</Run> Törlődik a vászon, új üres felület jelenik meg figyelmeztetés után.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Visszavonás --&gt;</Run> Az előző művelet törlése (amíg nem rajzolunk új vonalat).
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Újra --&gt;</Run> A legutóbb visszavont művelet visszaállítása.
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Grid.Row="1" Margin="10" HorizontalAlignment="Center">
+                <TextBlock Text="Gyorsbillentyűk" FontWeight="Bold" FontSize="30" Margin="0,0,0,5" HorizontalAlignment="Center" FontFamily="{StaticResource MainFont}"/>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="18">
+                    <Run FontWeight="SemiBold">Ctrl + S --&gt;</Run> Mentés (Save)
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="18">
+                    <Run FontWeight="SemiBold">Ctrl + Z --&gt;</Run> Visszavonás (Undo)
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="18">
+                    <Run FontWeight="SemiBold">Ctrl + Y --&gt;</Run> Újra (Redo)
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <Border CornerRadius="20" Background="#1C2135" Height="40" Width="200" Margin="0 20" MouseDown="Ok_Click" Cursor="Hand"  Grid.Row="2">
+            <Label Content="Bezár" Foreground="White" FontFamily="{StaticResource MainFont}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"></Label>
+        </Border>
+    </Grid>
+</Window>
