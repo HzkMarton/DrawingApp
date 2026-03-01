@@ -8,7 +8,9 @@
         Title="Info"
         SizeToContent="Height"
         Width="600"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Background="{DynamicResource BackGround}"
+        Foreground="{DynamicResource ForeGround}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,7 +31,7 @@
                             <ControlTemplate TargetType="Button">
                                 <StackPanel>
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Border x:Name="ActiveUnderline" Height="2" Background="#AAAAAA" Margin="0,8,0,0" Visibility="Collapsed"/>
+                                    <Border x:Name="ActiveUnderline" Height="2" Background="{DynamicResource BorderColor}" Margin="0,8,0,0" Visibility="Collapsed"/>
                                 </StackPanel>
                                 <ControlTemplate.Triggers>
                                     <!-- Aktív fül: nincs aláhúzás, fekete szöveg -->
@@ -39,7 +41,7 @@
                                     </Trigger>
                                     <!-- Inaktív fül: van aláhúzás, szürke szöveg -->
                                     <Trigger Property="IsEnabled" Value="True">
-                                        <Setter Property="Foreground" Value="Gray"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource BorderColor}"/>
                                         <Setter Property="FontWeight" Value="Normal"/>
                                         <Setter TargetName="ActiveUnderline" Property="Visibility" Value="Visible"/>
                                     </Trigger>
@@ -56,9 +58,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnInfo" Content="Információ" Grid.Column="0" Style="{StaticResource TabButtonStyle}" IsEnabled="False" Click="TabButton_Click"/>
-            <Rectangle Grid.Column="1" Width="2" Fill="#AAAAAA" VerticalAlignment="Stretch"/>
-            <Button x:Name="btnHelp" Content="Súgó" Grid.Column="2" Style="{StaticResource TabButtonStyle}" Click="TabButton_Click"/>
+            <Button x:Name="btnInfo" Content="Információ" Grid.Column="0" Style="{StaticResource TabButtonStyle}" Foreground="{DynamicResource ForeGround}" IsEnabled="False" Click="TabButton_Click"/>
+            <Rectangle Grid.Column="1" Width="2" Fill="{DynamicResource BorderColor}" VerticalAlignment="Stretch"/>
+            <Button x:Name="btnHelp" Content="Súgó" Foreground="{DynamicResource ForeGround}" Grid.Column="2" Style="{StaticResource TabButtonStyle}" Click="TabButton_Click"/>
             
         </Grid>
 
@@ -69,15 +71,15 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="A rajztábla alkalmazásról" FontWeight="Bold" FontSize="30" FontFamily="{StaticResource MainFont}" HorizontalAlignment="Center" Margin="0 10 0 20" Grid.Row="1"/>
-            <TextBlock TextWrapping="Wrap" Margin="16" FontSize="18" FontFamily="{StaticResource MainFont}"  Grid.Row="2" TextAlignment="Justify">
+            <TextBlock Text="A rajztábla alkalmazásról" Foreground="{DynamicResource ForeGround}" FontWeight="Bold" FontSize="30" FontFamily="{StaticResource MainFont}" HorizontalAlignment="Center" Margin="0 10 0 20" Grid.Row="1"/>
+            <TextBlock TextWrapping="Wrap" Margin="16" FontSize="18" FontFamily="{StaticResource MainFont}" Foreground="{DynamicResource ForeGround}" Grid.Row="2" TextAlignment="Justify">
                 A Rajztábla egy egyszerű rajzoló alkalmazás szabadkézi rajzokhoz. Választhatsz különböző ecsetméreteket és színeket, valamint elmentheted elkészült alkotásaidat. A könnyen használható felület lehetőséget ad arra, hogy kreatívan kifejezd magad és jól szórakozz közben.
             </TextBlock>
             <!-- Források szekció -->
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,10">
-                <TextBlock FontFamily="{StaticResource MainFont}" FontSize="24">
+                <TextBlock FontFamily="{StaticResource MainFont}" Foreground="{DynamicResource ForeGround}" FontSize="24">
             <Run FontWeight="SemiBold">Források:</Run>
-            <Hyperlink NavigateUri="https://www.svgrepo.com" RequestNavigate="Link_Megnyitas" Foreground="#1C2135">
+            <Hyperlink NavigateUri="https://www.svgrepo.com" RequestNavigate="Link_Megnyitas" Foreground="{DynamicResource ForeGround}">
                 www.svgrepo.com
             </Hyperlink>
                 </TextBlock>
@@ -95,7 +97,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Column="0" Grid.Row="0" Margin="10" HorizontalAlignment="Center">
-                <TextBlock Text="Eszköztár" FontWeight="Bold" FontSize="30" Margin="0,0,0,5" HorizontalAlignment="Center" FontFamily="{StaticResource MainFont}"/>
+                <TextBlock Text="Eszköztár" Foreground="{DynamicResource ForeGround}" FontWeight="Bold" FontSize="30" Margin="0,0,0,5" HorizontalAlignment="Center" FontFamily="{StaticResource MainFont}"/>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
                     <Run FontWeight="SemiBold">Ecset --&gt;</Run> Húzd az egeret a vásznon a vonalak megrajzolásához.
                 </TextBlock>
@@ -135,8 +137,8 @@
                 </TextBlock>
             </StackPanel>
         </Grid>
-        <Border CornerRadius="20" Background="#1C2135" Height="40" Width="200" Margin="0 20" MouseDown="Ok_Click" Cursor="Hand"  Grid.Row="2">
-            <Label Content="Bezár" Foreground="White" FontFamily="{StaticResource MainFont}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"></Label>
+        <Border CornerRadius="20" Background="{DynamicResource BorderColor}" Height="40" Width="200" Margin="0 20" MouseDown="Ok_Click" Cursor="Hand"  Grid.Row="2">
+            <Label Content="Bezár" Foreground="{DynamicResource ForeGround}" FontFamily="{StaticResource MainFont}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"></Label>
         </Border>
     </Grid>
 </Window>
