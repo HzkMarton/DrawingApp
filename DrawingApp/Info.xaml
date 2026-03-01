@@ -66,7 +66,7 @@
 
         <Grid x:Name="Info1" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -76,14 +76,30 @@
                 A Rajztábla egy egyszerű rajzoló alkalmazás szabadkézi rajzokhoz. Választhatsz különböző ecsetméreteket és színeket, valamint elmentheted elkészült alkotásaidat. A könnyen használható felület lehetőséget ad arra, hogy kreatívan kifejezd magad és jól szórakozz közben.
             </TextBlock>
             <!-- Források szekció -->
-            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,10">
-                <TextBlock FontFamily="{StaticResource MainFont}" Foreground="{DynamicResource ForeGround}" FontSize="24">
-            <Run FontWeight="SemiBold">Források:</Run>
-            <Hyperlink NavigateUri="https://www.svgrepo.com" RequestNavigate="Link_Megnyitas" Foreground="{DynamicResource ForeGround}">
-                www.svgrepo.com
-            </Hyperlink>
-                </TextBlock>
-            </StackPanel>
+            <Grid Grid.Row="3" Margin="0,20,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock FontFamily="{StaticResource MainFont}" Foreground="{DynamicResource ForeGround}" FontSize="24" HorizontalAlignment="Center">
+                        <Run FontWeight="SemiBold">Források</Run>
+                    </TextBlock>
+                    <TextBlock FontFamily="{StaticResource MainFont}" Foreground="{DynamicResource ForeGround}" FontSize="24" HorizontalAlignment="Center">
+                        <Hyperlink NavigateUri="https://www.svgrepo.com" RequestNavigate="Link_Megnyitas" Foreground="{DynamicResource ForeGround}">
+                            www.svgrepo.com
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Készítők" FontWeight="Bold" FontSize="24" FontFamily="{StaticResource MainFont}" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="Rosta Márton" FontFamily="{StaticResource MainFont}" FontSize="18" Foreground="{DynamicResource ForeGround}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Taliszter Kevin" FontFamily="{StaticResource MainFont}" FontSize="18" Foreground="{DynamicResource ForeGround}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Patonai Dániel" FontFamily="{StaticResource MainFont}" FontSize="18" Foreground="{DynamicResource ForeGround}" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
         </Grid>
         
         <Grid x:Name="Sugo" Grid.Row="1" Visibility="Collapsed">
