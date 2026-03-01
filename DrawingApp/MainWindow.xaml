@@ -102,9 +102,7 @@
                         <MenuItem Header="Kék (alapértelmezett)" Click="TemaKek_Click"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Súgó">
-                    <MenuItem Header="Információ" Click="Info_Click"/>
-                </MenuItem>
+                <MenuItem Header="Súgó" Click="Info_Click"/>
             </Menu>
         </Viewbox>
 

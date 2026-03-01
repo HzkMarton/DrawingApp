@@ -111,8 +111,8 @@ namespace DrawingApp
         }
         private void Info_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Rajzoló alkalmazás\nKészítette: RPT Industries\n2025",
-                               "Információ", MessageBoxButton.OK, MessageBoxImage.Information);
+            Info infoWindow = new Info(); 
+            infoWindow.ShowDialog();
         }
 
         private void TemaFekete_Click(object sender, RoutedEventArgs e) => TemaValtas("fekete");
