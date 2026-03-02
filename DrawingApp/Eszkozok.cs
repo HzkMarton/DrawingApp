@@ -111,6 +111,7 @@ namespace DrawingApp
             switch (this._tipus)
             {
                 case Tipus.Radir:
+                    drawmode = false;
                     MainWindow.ink.EditingMode = InkCanvasEditingMode.EraseByPoint;
                     CreateToolBar();
                     break;
