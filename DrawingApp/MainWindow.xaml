@@ -87,6 +87,8 @@
                     <MenuItem Header="Új" Click="UjCanvas_Click"/>
                     <MenuItem Header="Betöltés" Click="Betoltes_Click"/>
                     <MenuItem Header="Mentés" Click="Mentes_Click"/>
+                    <MenuItem Header="Mentés Másként" Click="MentesMaskent_Click"/>
+                    <MenuItem Header="Exportálás" Click="Export"/>
                     <Separator/>
                     <MenuItem Header="Kilépés" Click="Exit_Click"/>
                 </MenuItem>
@@ -117,7 +119,7 @@
                 <RowDefinition Height="7*"/>
                 <RowDefinition Height="1*" MaxHeight="60" MinHeight="50"/>
             </Grid.RowDefinitions>
-            <Border x:Name="CanvasContainer" Grid.Row="0"  Background="White" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border x:Name="CanvasContainer" Grid.Row="0"  Background="White" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 5 0">
                 <InkCanvas Name="canvas" Background="Transparent"/>
             </Border>
             <Border x:Name="Menu" Grid.Row="1" Margin="0 0 0 5" CornerRadius="5" Background="{DynamicResource BackGround}"/>

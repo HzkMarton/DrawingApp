@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 
 namespace DrawingApp
 {
@@ -63,26 +65,80 @@ namespace DrawingApp
             {
                 using FileStream fs = new FileStream(dlg.FileName, FileMode.Open);
                 ink.Strokes = new StrokeCollection(fs);
+                FilePath = dlg.FileName;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hiba a betöltéskor: " + ex.Message,"Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        static string FilePath = "";
         private void Mentes_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dlg = new SaveFileDialog
-            { Filter = "Ink files (*.isf)|*.isf|Minden fájl (*.*)|*.*" };
+            { Filter = "Ink files (*.isf)|*.isf|Minden fájl (*.*)|*.*", FileName = "Untitled.isf" };
+            if (FilePath == "")
+            {
+                if (dlg.ShowDialog() != true) return;
+                try
+                {
+                    using FileStream fs = new FileStream(dlg.FileName, FileMode.Create);
+                    ink.Strokes.Save(fs);
+                    FilePath = dlg.FileName;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hiba a mentéskor: " + ex.Message, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                using FileStream fs = new FileStream(FilePath, FileMode.Create);
+                ink.Strokes.Save(fs);
+            }
+        }
+        private void MentesMaskent_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog
+            { Filter = "Ink files (*.isf)|*.isf|Minden fájl (*.*)|*.*", FileName = "Untitled.isf" };
             if (dlg.ShowDialog() != true) return;
             try
             {
                 using FileStream fs = new FileStream(dlg.FileName, FileMode.Create);
                 ink.Strokes.Save(fs);
+                FilePath = dlg.FileName;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hiba a mentéskor: " + ex.Message,"Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Hiba a mentéskor: " + ex.Message, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void Export(object sender , RoutedEventArgs e)
+        {
+            int width = (int)canvas.ActualWidth;
+            int height = (int)canvas.ActualHeight;
+            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96d, 96d, PixelFormats.Default);            
+            DrawingVisual dv = new DrawingVisual();
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
+                VisualBrush vb = new VisualBrush(canvas);
+                dc.DrawRectangle(vb, null, new Rect(0, 0, width, height));
+            }
+            rtb.Render(dv);
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+            SaveFileDialog dlg = new SaveFileDialog
+            { Filter = "PNG Image (*.png)|*.png|Minden fájl (*.*)|*.*", FileName = "Untitled.png" };
+            if (dlg.ShowDialog() != true) return;
+            try
+            {
+                using FileStream fs = new FileStream(dlg.FileName, FileMode.Create);
+                encoder.Save(fs);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hiba a mentéskor: " + ex.Message, "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void Undo_Click(object sender, RoutedEventArgs e)

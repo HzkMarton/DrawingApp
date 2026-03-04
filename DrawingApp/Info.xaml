@@ -73,7 +73,7 @@
             </Grid.RowDefinitions>
             <TextBlock Text="A rajztábla alkalmazásról" Foreground="{DynamicResource ForeGround}" FontWeight="Bold" FontSize="30" FontFamily="{StaticResource MainFont}" HorizontalAlignment="Center" Margin="0 10 0 20" Grid.Row="1"/>
             <TextBlock TextWrapping="Wrap" Margin="16" FontSize="18" FontFamily="{StaticResource MainFont}" Foreground="{DynamicResource ForeGround}" Grid.Row="2" TextAlignment="Justify">
-                A Rajztábla egy egyszerű rajzoló alkalmazás szabadkézi rajzokhoz. Választhatsz különböző ecsetméreteket és színeket, valamint elmentheted elkészült alkotásaidat. A könnyen használható felület lehetőséget ad arra, hogy kreatívan kifejezd magad és jól szórakozz közben.
+                A Rajztábla egy egyszerű rajzoló alkalmazás szabadkézi rajzokhoz. Választhatsz különböző ecsetméreteket és színeket, valamint elmentheted az elkészült alkotásaidat. A könnyen használható felület lehetőséget ad arra, hogy kreatívan kifejezd magad és jól szórakozz közben.
             </TextBlock>
             <!-- Források szekció -->
             <Grid Grid.Row="3" Margin="0,20,0,20">
@@ -128,6 +128,9 @@
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
                     <Run FontWeight="SemiBold">Mentés gomb --&gt;</Run> A rajz .isf-ként történő elmentése a számítógépre.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
+                    <Run FontWeight="SemiBold">Exportálás gomb --&gt;</Run> A rajz .png-ként történő elmentése a számítógépre.
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,0,3" FontFamily="{StaticResource MainFont}" FontSize="16">
                     <Run FontWeight="SemiBold">Új rajz --&gt;</Run> Törlődik a vászon, új üres felület jelenik meg figyelmeztetés után.
