@@ -7,7 +7,7 @@
 [![Cosmic License](https://img.shields.io/badge/license-Ontological%20Void-black.svg?style=flat-square)](LICENSE)
 [![Stack Overflow](https://img.shields.io/badge/stack-overflowing%20with%20power-orange.svg?style=flat-square)](https://stackoverflow.com)
 
-*„Ezen szoftver nem csupán kód, hanem egy hasadék a valóság szövetén, melyen át a pixelek a Semmiből a Létezésbe áramlanak."*
+*„Ezen szoftver nem csupán kód, hanem egy hasadék a valóság szövetén, melyen át a pixelek a semmiből a létezésbe áramlanak."*
 
 </div>
 
